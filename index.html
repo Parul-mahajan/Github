@@ -1,5 +1,45 @@
 <html>
-  <body>
-    Hi
-  </body>
+<head>
+    <title>Newsletter Subscription</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        .form-container { width: 300px; margin: auto; }
+        input, select, button { width: 100%; padding: 10px; margin: 5px 0; }
+    </style>
+</head>
+<body>
+    <div class="form-container">
+        <h2>Subscribe to Newsletter</h2>
+        <form id="subscriptionForm">
+            <label for="email">Email:</label>
+            <input type="email" id="email" required />
+            
+            <label for="category">Category:</label>
+            <select id="category">
+                <option value="Technology">Technology</option>
+                <option value="Health">Health</option>
+                <option value="Sports">Sports</option>
+            </select>
+            
+            <button type="submit">Subscribe</button>
+        </form>
+        <div id="responseMessage"></div>
+    </div>
+    <script>
+        document.getElementById('subscriptionForm').addEventListener('submit', async (event) => {
+            event.preventDefault();
+            const email = document.getElementById('email').value;
+            const category = document.getElementById('category').value;
+
+            const response = await fetch('http://127.0.0.1:5000/subscribe', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ email, category })
+            });
+
+            const result = await response.json();
+            document.getElementById('responseMessage').innerText = result.message;
+        });
+    </script>
+</body>
 </html>
